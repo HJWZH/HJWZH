@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Load JSON Data</title>
+</head>
+<body>
+    <div id="data-container"></div>
+ 
+    <script>
+        fetch('structure.json')
+            .then(response => response.json())
+            .then(data => {
+                displayData(data);
+            })
+            .catch(error => console.error('Error loading the data:', error));
+ 
+        function displayData(data) {
+            const container = document.getElementById('data-container');
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = `Name: ${item.name}, Age: ${item.age}`;
+                container.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
