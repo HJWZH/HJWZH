@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文思引擎 - 智能作文素材助手</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4CAF50;
+            --warning: #FFC107;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 C20,80 40,100 60,80 C80,60 100,100 100,0 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 100% 100%;
+            opacity: 0.3;
+        }
+        
+        .logo {
+            font-family: 'ZCOOL XiaoWei', serif;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .github-btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin: 10px;
+        }
+        
+        .github-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            background: #f0f0f0;
+        }
+        
+        .github-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 60px;
+            color: var(--secondary);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            border: 1px solid #eee;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(120deg, var(--primary), var(--accent));
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .feature-content {
+            padding: 25px;
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-text {
+            color: #555;
+            font-size: 1rem;
+        }
+        
+        /* Demo Section */
+        .demo {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #eef2f5 0%, #dfe9f3 100%);
+        }
+        
+        .demo-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .demo-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .demo-image {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid #eee;
+        }
+        
+        .demo-image img {
+            width: 100%;
+            display: block;
+        }
+        
+        .demo-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .demo-text {
+            margin-bottom: 25px;
+            color: #444;
+            font-size: 1.1rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid #eaeaea;
+        }
+        
+        /* Installation Section */
+        .installation {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            counter-reset: step-counter;
+        }
+        
+        .step {
+            position: relative;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+        }
+        
+        .step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1rem;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(120deg, var(--secondary), #2a2a72);
+            color: white;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-title::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin: 10px 0;
+        }
+        
+        .footer-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <h1 class="logo">文思引擎</h1>
+            <p class="tagline">基于AI的智能作文素材检索工具，让写作灵感永不枯竭</p>
+            <a href="https://github.com/hjwzh/composition-assistant" class="github-btn" target="_blank">
+                <i class="fab fa-github"></i> GitHub 项目主页
+            </a>
+        </div>
+    </header>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">核心功能</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">深度语义理解</h3>
+                        <p class="feature-text">突破传统关键词匹配，理解"生命→人生价值"等抽象概念的深层联系，精准推荐相关素材。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">多源素材库</h3>
+                        <p class="feature-text">整合2000+名言警句、1500+热点事例、800+古诗文，涵盖成长、科技、文化等多个主题。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">智能写作建议</h3>
+                        <p class="feature-text">基于检索结果生成论证框架，提供"观点-事例-结论"的完整写作思路，激发创作灵感。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">主题关联网络</h3>
+                        <p class="feature-text">可视化展示"航天精神→科技创新→民族复兴"等主题关联，帮助构建系统化知识体系。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">多平台兼容</h3>
+                        <p class="feature-text">支持Windows 7/10/11系统，提供标准版、兼容版和教育专用版，满足不同使用场景需求。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">教育友好设计</h3>
+                        <p class="feature-text">低内存模式优化，学校机房也能流畅运行，助力教育资源均衡发展。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Demo Section -->
+    <section class="demo">
+        <div class="container">
+            <h2 class="section-title">技术架构与演示</h2>
+            <div class="demo-container">
+                <div class="demo-content">
+                    <h3 class="demo-title">智能语义检索系统</h3>
+                    <p class="demo-text">文思引擎采用先进的自然语言处理技术，基于微调的RoBERTa中文模型，实现深层次的语义理解与素材匹配。</p>
+                    <p class="demo-text">系统通过概念扩展引擎和主题关联网络，能够理解抽象概念之间的深层联系，如将"逆境"关联到"成长"、"坚持"等主题。</p>
+                    
+                    <div class="tech-stack">
+                        <div class="tech-item">Python 3.10+</div>
+                        <div class="tech-item">PyTorch</div>
+                        <div class="tech-item">Transformers</div>
+                        <div class="tech-item">Sentence-BERT</div>
+                        <div class="tech-item">Jieba分词</div>
+                        <div class="tech-item">Scikit-learn</div>
+                    </div>
+                    
+                    <a href="https://github.com/hjwzh/composition-assistant" class="github-btn" target="_blank" style="margin-top: 30px;">
+                        <i class="fas fa-code-branch"></i> 查看源代码
+                    </a>
+                </div>
+                
+                <div class="demo-image">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="文思引擎界面演示">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Installation Section -->
+    <section class="installation">
+        <div class="container">
+            <h2 class="section-title">安装与使用</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3 class="step-title">环境准备</h3>
+                    <p>确保系统已安装Python 3.10+</p>
+                    <div class="code-block">
+                        # 创建虚拟环境<br>
+                        python -m venv venv<br><br>
+                        
+                        # 激活环境<br>
+                        # Windows:<br>
+                        venv\Scripts\activate<br><br>
+                        
+                        # Linux/Mac:<br>
+                        source venv/bin/activate
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3 class="step-title">安装依赖</h3>
+                    <p>克隆仓库并安装所需依赖包</p>
+                    <div class="code-block">
+                        # 克隆项目仓库<br>
+                        git clone https://github.com/hjwzh/composition-assistant.git<br>
+                        cd composition-assistant<br><br>
+                        
+                        # 安装依赖<br>
+                        pip install -r requirements.txt
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3 class="step-title">下载模型</h3>
+                    <p>获取预训练模型（首次运行自动下载）</p>
+                    <div class="code-block">
+                        # 手动下载模型（可选）<br>
+                        python download_model.py
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3 class="step-title">运行应用</h3>
+                    <p>启动智能作文素材检索系统</p>
+                    <div class="code-block">
+                        # 命令行界面<br>
+                        python main.py<br><br>
+                        
+                        # GUI界面<br>
+                        python gui_main.py
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">项目信息</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/hjwzh/composition-assistant" target="_blank">GitHub 仓库</a></li>
+                        <li><a href="#">文档中心</a></li>
+                        <li><a href="#">问题反馈</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">开源协议</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">MIT 许可证</a></li>
+                        <li><a href="#">贡献指南</a></li>
+                        <li><a href="#">行为准则</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">联系方式</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:contact@example.com">contact@example.com</a></li>
+                        <li><a href="#">微信公众号</a></li>
+                        <li><a href="#">教育合作</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 文思引擎 - 智能作文素材助手 | 开源项目: <a href="https://github.com/hjwzh/composition-assistant" style="color: var(--accent);">composition-assistant</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 添加滚动动画效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 12px 25px rgba(0,0,0,0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 20px rgba(0,0,0,0.08)';
+                });
+            });
+            
+            // 添加GitHub按钮悬停效果
+            const githubBtn = document.querySelector('.github-btn');
+            githubBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+                this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.25)';
+            });
+            
+            githubBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+            });
+        });
+    </script>
+</body>
+</html>
